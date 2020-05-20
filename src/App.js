@@ -8,7 +8,7 @@ const maquette = {
   state: "__initial",
   fonts: [
     {
-      href: `https://fonts.googleapis.com/css2?family=DM+Sans&display=swap`,
+      href: `https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap`,
       stack: `'DM Sans', sans-serif`
     },
     {
