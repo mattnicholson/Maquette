@@ -42,8 +42,71 @@ function loadEffects({ effects }) {
   return effectProps;
 }
 
+function findElement(id, array) {
+  let found = 0;
+
+  for (let i = 0; i < array.length; i++) {
+    let el = array[i];
+    if (el[1].id === id) {
+      found = el;
+      break;
+    }
+    let children = el[2] || [];
+    if (!children.length) {
+      found = null;
+      break;
+    }
+    found = findElement(id, el[2]);
+  }
+
+  return found;
+}
+
+function overwriteProperties(el, changes) {
+  let orig = el[1];
+  let updated = false;
+  // Is this element being overwritten at all?
+  Object.keys(changes).forEach(k => {
+    if (orig.id === k) {
+      updated = { ...orig, ...changes[k] };
+    }
+  });
+
+  let children = el[2] || [];
+  let overwriteChildren = [];
+  if (children.length) {
+    overwriteChildren = children.map(child => {
+      return overwriteProperties(child, changes);
+    });
+  }
+
+  let overwroteProps = updated ? updated : orig;
+  let overwrote = [el[0], overwroteProps];
+  if (children.length) overwrote.push(overwriteChildren);
+
+  return overwrote;
+}
+
+function cloneAlias(props) {
+  let elements = props.settings.elements;
+
+  let find = props.alias;
+  let element = findElement(find, elements);
+  if (!element) return null;
+  let clone = [...element];
+
+  return overwriteProperties(element, props);
+}
+
 function Element(props) {
   //console.log("Element", props);
+
+  // IS it an alias?
+  if (props.type === "alias") {
+    let alias = cloneAlias(props);
+    if (!alias) return null;
+    return <Maquette settings={props.settings} root={alias} />;
+  }
 
   let output = null;
   let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
@@ -110,7 +173,7 @@ export default function Maquette({ settings, root }) {
   let children = root[2] || [];
 
   return (
-    <Element type={rootType} {...rootProps}>
+    <Element type={rootType} {...rootProps} settings={settings}>
       {children.map((e, ix) => (
         <Maquette key={ix} settings={settings} root={e} />
       ))}

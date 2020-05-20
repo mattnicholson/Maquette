@@ -37,12 +37,12 @@ const maquette = {
         // Section 1
         [
           "viewport",
-          { id: "section1", background: "black", color: "white" },
+          { id: "masthead", background: "black", color: "white" },
           [
             [
               "box",
               {
-                id: "masthead_img",
+                id: "masthead_img_box",
                 x: 0,
                 y: 0,
                 w: 1,
@@ -52,6 +52,7 @@ const maquette = {
                 [
                   "image",
                   {
+                    id: "masthead_img",
                     x: 0,
                     y: 0,
                     w: 1,
@@ -77,7 +78,7 @@ const maquette = {
             [
               "box",
               {
-                id: "masthead_text",
+                id: "masthead_text_box",
                 x: 0,
                 y: 0.5,
                 w: 1,
@@ -180,6 +181,18 @@ const maquette = {
               ]
             ]
           ]
+        ],
+        [
+          "alias",
+          {
+            id: "section3",
+            alias: "masthead",
+            masthead: { background: "#FFF", color: "#111" },
+            masthead_img: {
+              src: "https://picsum.photos/seed/23/1920/1080?random=2"
+            },
+            masthead_text: { content: "Another Heading" }
+          }
         ]
       ]
     ]
