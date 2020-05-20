@@ -1,2 +1,0 @@
-# Maquette
-Created with CodeSandbox
