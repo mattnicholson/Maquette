@@ -95,7 +95,7 @@ const maquette = {
                     h: 1,
                     layout: "center",
                     style: "hero",
-                    content: "Co—Pilot"
+                    content: "Hero"
                   }
                 ]
               ]
