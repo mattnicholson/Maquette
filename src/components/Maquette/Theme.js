@@ -32,7 +32,8 @@ export default function Theme({ settings, children, loaded }) {
           background: ${settings.theme.background.default};
         }
         body{
-          font-family:'Nimbus Sans L',sans-serif;
+          font-family:'DM Sans', sans-serif;
+          font-weight:400;
         }
       .hero{
         font-family:'DM Mono', monospace;
@@ -42,6 +43,12 @@ export default function Theme({ settings, children, loaded }) {
         font-size : 12vw;
         text-align:center;
         margin:0;
+      }
+
+      .logo{
+        font-size:1.5vw;
+        letter-spacing:0.01em;
+        font-weight:400;
       }
 
       .h3{

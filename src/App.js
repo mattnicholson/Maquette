@@ -8,17 +8,21 @@ const maquette = {
   state: "__initial",
   fonts: [
     {
-      href: `https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&display=swap`,
-      stack: `'DM Mono', monospace`
+      href: `https://fonts.googleapis.com/css2?family=DM+Sans&display=swap`,
+      stack: `'DM Sans', sans-serif`
     },
     {
+      href: `https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&display=swap`,
+      stack: `'DM Mono', monospace`
+    }
+    /*{
       href: `https://mattnicholson.github.io/fonts/Bagnard/font-face.css`,
       stack: `'Bagnard',serif`
     },
     {
       href: `https://mattnicholson.github.io/fonts/Nimbus_Sans_L/font-face.css`,
       stack: `'Nimbus Sans L',sans-serif`
-    }
+    }*/
   ],
   theme: {
     background: {
@@ -34,8 +38,8 @@ const maquette = {
       "root",
       { id: "main" },
       [
-        // Section 1
         [
+          // Section 1
           "viewport",
           { id: "masthead", background: "black", color: "white" },
           [
@@ -193,6 +197,34 @@ const maquette = {
             },
             masthead_text: { content: "Another Heading" }
           }
+        ],
+        // Nav
+        [
+          "box",
+          { id: "header", fixed: true, x: 0, y: 0, w: 1, h: 0.2 },
+          [
+            [
+              "box",
+              {
+                id: "logo_box",
+                x: 0.01,
+                y: 0.05,
+                w: 0.2,
+                h: 0,
+                color: "white"
+              },
+              [
+                [
+                  "text",
+                  {
+                    content: "maquette.",
+                    style: "logo",
+                    component: "div"
+                  }
+                ]
+              ]
+            ]
+          ]
         ]
       ]
     ]
