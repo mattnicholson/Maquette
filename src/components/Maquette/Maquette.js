@@ -1,61 +1,105 @@
 import React from "react";
+import MaquetteElement from "./Element";
+import { motion } from "framer-motion";
+
+function effectToProps(effect) {
+  let effectType = effect[0];
+  let effectSettings = effect[1];
+
+  switch (effectType) {
+    case "fadeIn":
+      return {
+        variants: {
+          visible: { opacity: 1 },
+          hidden: { opacity: 0 }
+        },
+        transition: {
+          delay: 1,
+          default: { duration: 2 }
+        },
+        initial: "hidden",
+        animate: "visible"
+      };
+      return { initial: { opacity: 0 }, animate: { opacity: 1 } };
+    case "scaleHover":
+      return {
+        whileHover: { scale: 1.1 }
+      };
+    default:
+      return {};
+  }
+
+  return { style: { border: "1px solid red" } };
+}
+
+function loadEffects({ effects }) {
+  let effectProps = effects.reduce((effects, effect) => {
+    let thisEffect = effectToProps(effect);
+
+    return { ...effects, ...thisEffect };
+  }, {});
+
+  return effectProps;
+}
 
 function Element(props) {
   //console.log("Element", props);
 
+  let output = null;
+  let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
+
+  let renderProps = { ...effects };
+
+  renderProps["data-layout"] = props.layout;
+
   switch (props.type) {
     case "viewport":
-      return (
-        <div
-          style={{
-            position: "relative",
-            width: `100%`,
-            height: `100vh`,
-            background: props.background,
-            color: props.color
-          }}
-          data-layout={props.layout}
-        >
-          {props.children}
-        </div>
-      );
+      renderProps["style"] = {
+        position: "relative",
+        width: `100%`,
+        height: `100vh`,
+        background: props.background,
+        color: props.color
+      };
+      renderProps["children"] = props.children;
+      break;
     case "box":
-      return (
-        <div
-          style={{
-            display: "block",
-            position: props.fixed ? "fixed" : "absolute",
-            width: `${props.w * 100}%`,
-            height: `${props.h * 100}%`,
-            top: `${props.y * 100}%`,
-            left: `${props.x * 100}%`,
-            background: props.background,
-            color: props.color
-          }}
-          data-layout={props.layout}
-        >
-          {props.children}
-        </div>
-      );
+      renderProps["style"] = {
+        display: "block",
+        position: props.fixed ? "fixed" : "absolute",
+        width: `${props.w * 100}%`,
+        height: `${props.h * 100}%`,
+        top: `${props.y * 100}%`,
+        left: `${props.x * 100}%`,
+        background: props.background,
+        color: props.color
+      };
+      renderProps["children"] = props.children;
+      break;
     case "text":
-      return (
-        <p className={props.style} data-layout={props.layout}>
-          {props.content}
-        </p>
-      );
+      renderProps["component"] = props.component || "p";
+      renderProps["className"] = props.style;
+      renderProps["children"] = props.content;
+
+      break;
     case "image":
-      return (
-        <img
-          data-layout={props.layout}
-          src={props.src}
-          alt={props.alt || `Image of ${props.src}`}
-        />
-      );
+      console.log("effects", effects);
+      renderProps["component"] = "img";
+      renderProps["src"] = props.src;
+      renderProps["alt"] = props.alt || `Image of ${props.src}`;
+
+      break;
     case "button":
-      return <button data-layout={props.layout}>{props.content}</button>;
+      renderProps["component"] = props.component || "button";
+      renderProps["className"] = `Button ${props.style || ""}`;
+      renderProps["children"] = props.content;
+
+      break;
     default:
-      return props.children;
+      renderProps["children"] = props.children;
   }
+
+  return <MaquetteElement {...renderProps} />;
 }
 
 export default function Maquette({ settings, root }) {

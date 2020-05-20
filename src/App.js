@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Maquette from "./components/Maquette/Maquette";
 import MaquetteTheme from "./components/Maquette/Theme";
 import "./normalize.css";
@@ -8,6 +8,10 @@ const maquette = {
   state: "__initial",
   fonts: [
     {
+      href: `https://fonts.googleapis.com/css2?family=DM+Mono:wght@300&display=swap`,
+      stack: `'DM Mono', monospace`
+    },
+    {
       href: `https://mattnicholson.github.io/fonts/Bagnard/font-face.css`,
       stack: `'Bagnard',serif`
     },
@@ -16,6 +20,15 @@ const maquette = {
       stack: `'Nimbus Sans L',sans-serif`
     }
   ],
+  theme: {
+    background: {
+      default: "#000"
+    },
+    buttons: {
+      spacing: 1,
+      roundness: 2
+    }
+  },
   elements: [
     [
       "root",
@@ -44,6 +57,7 @@ const maquette = {
                     w: 1,
                     h: 1,
                     layout: "cover",
+                    effects: [["fadeIn"]],
                     src: "https://picsum.photos/1920/1080"
                   }
                 ],
@@ -67,8 +81,8 @@ const maquette = {
                 x: 0,
                 y: 0.5,
                 w: 1,
-                h: 1,
-                fixed: true
+                h: 0,
+                fixed: false
               },
               [
                 [
@@ -81,7 +95,7 @@ const maquette = {
                     h: 1,
                     layout: "center",
                     style: "hero",
-                    content: "Heading 1"
+                    content: "Co—Pilot"
                   }
                 ]
               ]
@@ -159,7 +173,8 @@ const maquette = {
                 [
                   "button",
                   {
-                    content: "Button"
+                    content: "Button",
+                    effects: [["scaleHover", {}]]
                   }
                 ]
               ]
@@ -172,9 +187,11 @@ const maquette = {
 };
 
 export default function App() {
+  const [ready, setReady] = useState("loading");
+
   return (
-    <div className="App">
-      <MaquetteTheme settings={maquette}>
+    <div className={`App App--${ready}`}>
+      <MaquetteTheme settings={maquette} loaded={() => setReady("ready")}>
         <Maquette
           settings={maquette}
           root={maquette.elements.find(e => e[0] === "root")}

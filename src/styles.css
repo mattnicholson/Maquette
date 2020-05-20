@@ -1,5 +1,11 @@
 .App {
   font-family: sans-serif;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.App--ready {
+  opacity: 1;
 }
 
 [data-layout="cover"] {
