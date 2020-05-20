@@ -67,8 +67,8 @@ export default function Maquette({ settings, root }) {
 
   return (
     <Element type={rootType} {...rootProps}>
-      {children.map(e => (
-        <Maquette settings={settings} root={e} />
+      {children.map((e, ix) => (
+        <Maquette key={ix} settings={settings} root={e} />
       ))}
     </Element>
   );
