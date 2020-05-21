@@ -46,9 +46,20 @@ export default function Theme({ settings, children, loaded }) {
       }
 
       .logo{
-        font-size:1.5vw;
+        font-size:18px;
         letter-spacing:0.01em;
         font-weight:400;
+      }
+     
+      
+      @media only screen and (max-width: 800px){
+        
+      }
+      @media only screen and (max-width: 480px){
+        
+      }
+      @media only screen and (min-width: 1200px){
+        
       }
 
       .h3{
@@ -69,10 +80,13 @@ export default function Theme({ settings, children, loaded }) {
 
       .Button{
         font-family:'DM Mono', monospace;
+        font-size:14px;
+        line-height:250%;
         display:inline-block;
         background:#CCC;
-        padding: ${settings.theme.buttons.spacing}vw;
-        border-radius: ${settings.theme.buttons.roundness}vw;
+        padding: 0 ${settings.theme.buttons.spacing * settings.theme.spacing}px;
+        border-radius: ${settings.theme.buttons.roundness *
+          settings.theme.spacing}px;
       }
     `}
       </style>

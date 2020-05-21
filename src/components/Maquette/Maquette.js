@@ -122,7 +122,10 @@ function Element(props) {
         width: `100%`,
         height: `100vh`,
         background: props.background,
-        color: props.color
+        color: props.color,
+        padding: props.spacing
+          ? `${props.spacing * props.settings.theme.spacing}px`
+          : null
       };
       renderProps["children"] = props.children;
       break;
@@ -135,7 +138,11 @@ function Element(props) {
         top: `${props.y * 100}%`,
         left: `${props.x * 100}%`,
         background: props.background,
-        color: props.color
+        color: props.color,
+        textAlign: props.textAlign,
+        padding: props.spacing
+          ? `${props.spacing * props.settings.theme.spacing}px`
+          : null
       };
       renderProps["children"] = props.children;
       break;
@@ -153,6 +160,14 @@ function Element(props) {
 
       break;
     case "button":
+      renderProps["style"] = {
+        background: props.background,
+        color: props.color,
+        textAlign: props.textAlign,
+        padding: props.spacing
+          ? `${props.spacing * props.settings.theme.spacing}px`
+          : null
+      };
       renderProps["component"] = props.component || "button";
       renderProps["className"] = `Button ${props.style || ""}`;
       renderProps["children"] = props.content;

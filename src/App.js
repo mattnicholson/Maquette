@@ -25,6 +25,7 @@ const maquette = {
     }*/
   ],
   theme: {
+    spacing: 16,
     background: {
       default: "#000"
     },
@@ -126,11 +127,7 @@ const maquette = {
                 [
                   "image",
                   {
-                    x: 0,
-                    y: 0,
-                    w: 1,
-                    h: 1,
-                    layout: "cover",
+                    layout: "center",
                     src: "https://picsum.photos/1200/800"
                   }
                 ]
@@ -143,7 +140,8 @@ const maquette = {
                 x: 0,
                 y: 0,
                 w: 0.5,
-                h: 1
+                h: 1,
+                spacing: 1
               },
               [
                 [
@@ -207,10 +205,11 @@ const maquette = {
               "box",
               {
                 id: "logo_box",
-                x: 0.01,
-                y: 0.05,
+                x: 0,
+                y: 0,
                 w: 0.2,
                 h: 0,
+                spacing: 1,
                 color: "white"
               },
               [
@@ -220,6 +219,29 @@ const maquette = {
                     content: "maquette.",
                     style: "logo",
                     component: "div"
+                  }
+                ]
+              ]
+            ],
+            [
+              "box",
+              {
+                id: "logo_box",
+                x: 0.2,
+                y: 0,
+                w: 0.8,
+                h: 0,
+                spacing: 1,
+                textAlign: "right"
+              },
+              [
+                [
+                  "button",
+                  {
+                    content: "Click Here",
+                    component: "div",
+                    background: "#4b42f5",
+                    color: "white"
                   }
                 ]
               ]
