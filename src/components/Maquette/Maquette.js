@@ -85,6 +85,8 @@ function overwriteProperties(el, changes) {
   let overwrote = [el[0], overwroteProps];
   if (children.length) overwrote.push(overwriteChildren);
 
+  if (changes.id) overwrote[1].id = changes.id;
+
   return overwrote;
 }
 
@@ -99,16 +101,56 @@ function cloneAlias(props) {
 
   return overwriteProperties(element, props);
 }
+function mergeStateProps(props, stateMap) {
+  if (!props.hasOwnProperty("variants")) return props;
+  let mergedProps = Object.keys(stateMap).reduce(
+    (curProps, k) => {
+      let merge = Object.keys(props.variants).find(pk => {
+        let splitKey = pk.split(".");
+        let search = splitKey.length > 1 ? splitKey[1] : splitKey[0];
 
-function Element(props) {
+        let matchId = k == props.id || splitKey[0] == k;
+        let matchState = stateMap[k].indexOf(search) != -1;
+        return matchId && matchState;
+      });
+      if (merge) {
+        let copy = { ...curProps };
+        let key;
+
+        // Work out which type of state listener we matched
+        if (k == props.id) key = "self";
+        else if (k.match("global.")) key = "global";
+        else key = "other";
+        copy[key] = { ...curProps[key], ...props.variants[merge] };
+
+        return { ...copy };
+      }
+
+      // Key matches
+      return { ...curProps };
+    },
+    { global: {}, self: {}, other: {} }
+  );
+
+  // Return the expanded object, overwriting in order of global > other > self
+  // Element level states should override inherited states
+  return {
+    ...props,
+    ...mergedProps.global,
+    ...mergedProps.other,
+    ...mergedProps.self
+  };
+}
+function Element(properties) {
   // Is it an alias?
-  if (props.type === "alias") {
-    let alias = cloneAlias(props);
+  if (properties.type === "alias") {
+    let alias = cloneAlias(properties);
 
     if (!alias) return null;
-    return <Maquette settings={props.settings} root={alias} />;
+    return <Maquette settings={properties.settings} root={alias} />;
   }
 
+  let props = mergeStateProps(properties, properties.settings.stateMap);
   let output = null;
   let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
 

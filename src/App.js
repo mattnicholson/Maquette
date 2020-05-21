@@ -6,6 +6,11 @@ import "./styles.css";
 
 const maquette = {
   state: "__initial",
+  stateMap: {
+    global: ["__initial", "inactive"],
+    default_button: ["inactive"],
+    clicker: ["inactive"]
+  },
   fonts: [
     {
       href: `https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap`,
@@ -42,7 +47,22 @@ const maquette = {
         [
           // Section 1
           "viewport",
-          { id: "masthead", background: "black", color: "white" },
+          {
+            id: "masthead",
+            background: "black",
+            color: "white",
+            variants: {
+              // Global states prefixed with global.
+              "global.active": { color: "#000" },
+              // Element states prefixed with {id}.{state}
+              "default_button.active": { color: "blue" },
+              // Element states without any prefixing
+              active: { color: "red" }
+            },
+            breakpoints: {
+              mobile: { border: "10px solid white" }
+            }
+          },
           [
             [
               "box",
@@ -178,7 +198,10 @@ const maquette = {
                   {
                     id: "default_button",
                     content: "Button",
-                    effects: [["scaleHover", {}]]
+                    variants: {
+                      active: { background: "red" }
+                    },
+                    effects: [["scaleHover", {}], ["toggle"]]
                   }
                 ]
               ]
@@ -240,6 +263,7 @@ const maquette = {
                   "alias",
                   {
                     alias: "default_button",
+                    id: "clicker",
                     default_button: {
                       content: "Click Here",
                       component: "a",
