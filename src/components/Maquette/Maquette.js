@@ -54,9 +54,10 @@ function findElement(id, array) {
     let children = el[2] || [];
     if (!children.length) {
       found = null;
-      break;
+      continue;
     }
     found = findElement(id, el[2]);
+    if (found) break;
   }
 
   return found;
@@ -92,6 +93,7 @@ function cloneAlias(props) {
 
   let find = props.alias;
   let element = findElement(find, elements);
+
   if (!element) return null;
   let clone = [...element];
 
@@ -99,11 +101,10 @@ function cloneAlias(props) {
 }
 
 function Element(props) {
-  //console.log("Element", props);
-
-  // IS it an alias?
+  // Is it an alias?
   if (props.type === "alias") {
     let alias = cloneAlias(props);
+
     if (!alias) return null;
     return <Maquette settings={props.settings} root={alias} />;
   }
@@ -153,7 +154,6 @@ function Element(props) {
 
       break;
     case "image":
-      console.log("effects", effects);
       renderProps["component"] = "img";
       renderProps["src"] = props.src;
       renderProps["alt"] = props.alt || `Image of ${props.src}`;
@@ -171,7 +171,8 @@ function Element(props) {
       renderProps["component"] = props.component || "button";
       renderProps["className"] = `Button ${props.style || ""}`;
       renderProps["children"] = props.content;
-
+      renderProps["role"] = "button";
+      if (renderProps["component"] !== "button") renderProps["href"] = "#";
       break;
     default:
       renderProps["children"] = props.children;

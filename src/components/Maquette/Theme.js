@@ -84,6 +84,7 @@ export default function Theme({ settings, children, loaded }) {
         line-height:250%;
         display:inline-block;
         background:#CCC;
+        text-decoration:none;
         padding: 0 ${settings.theme.buttons.spacing * settings.theme.spacing}px;
         border-radius: ${settings.theme.buttons.roundness *
           settings.theme.spacing}px;

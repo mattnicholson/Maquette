@@ -176,6 +176,7 @@ const maquette = {
                 [
                   "button",
                   {
+                    id: "default_button",
                     content: "Button",
                     effects: [["scaleHover", {}]]
                   }
@@ -236,12 +237,15 @@ const maquette = {
               },
               [
                 [
-                  "button",
+                  "alias",
                   {
-                    content: "Click Here",
-                    component: "div",
-                    background: "#4b42f5",
-                    color: "white"
+                    alias: "default_button",
+                    default_button: {
+                      content: "Click Here",
+                      component: "a",
+                      background: "#4b42f5",
+                      color: "white"
+                    }
                   }
                 ]
               ]
