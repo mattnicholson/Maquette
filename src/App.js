@@ -5,11 +5,12 @@ import "./normalize.css";
 import "./styles.css";
 
 const maquette = {
-  state: "__initial",
+  state: "initial",
   stateMap: {
-    global: ["__initial", "inactive"],
-    default_button: ["inactive"],
-    clicker: ["inactive"]
+    global: ["initial"],
+    default_button: ["initial"],
+    clicker: ["initial"],
+    masthead: ["initial"]
   },
   fonts: [
     {
@@ -34,6 +35,9 @@ const maquette = {
     background: {
       default: "#000"
     },
+    color: {
+      default: "#FFF"
+    },
     buttons: {
       spacing: 1,
       roundness: 2
@@ -49,15 +53,16 @@ const maquette = {
           "viewport",
           {
             id: "masthead",
-            background: "black",
-            color: "white",
+            background: "#000",
+            color: "#FFF",
+            opacity: 0,
             variants: {
               // Global states prefixed with global.
               "global.active": { color: "#000" },
               // Element states prefixed with {id}.{state}
-              "default_button.active": { color: "blue" },
+              "default_button.active": { color: "#0000FF" },
               // Element states without any prefixing
-              active: { color: "red" }
+              active: { color: "#333", borderRadius: `10px` }
             },
             breakpoints: {
               mobile: { border: "10px solid white" }
@@ -199,9 +204,13 @@ const maquette = {
                     id: "default_button",
                     content: "Button",
                     variants: {
-                      active: { background: "red" }
+                      active: { background: "#FF0000" }
                     },
-                    effects: [["scaleHover", {}], ["toggle"]]
+                    effects: [["scaleHover", {}], ["toggle"]],
+                    transition: {
+                      delay: 1,
+                      default: { duration: 2 }
+                    }
                   }
                 ]
               ]
@@ -268,7 +277,7 @@ const maquette = {
                       content: "Click Here",
                       component: "a",
                       background: "#4b42f5",
-                      color: "white"
+                      color: "#FFFFFF"
                     }
                   }
                 ]

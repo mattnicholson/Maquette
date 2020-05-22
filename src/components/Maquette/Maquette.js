@@ -122,16 +122,53 @@ function mergeStateProps(props, stateMap) {
         else if (k.match("global.")) key = "global";
         else key = "other";
         copy[key] = { ...curProps[key], ...props.variants[merge] };
-
+        copy["activeStates"] = [...curProps.activeStates, merge];
         return { ...copy };
       }
 
       // Key matches
       return { ...curProps };
     },
-    { global: {}, self: {}, other: {} }
+    { global: {}, self: {}, other: {}, activeStates: [] }
   );
 
+  let propsForCurrentState = {
+    ...props,
+    ...mergedProps.global,
+    ...mergedProps.other,
+    ...mergedProps.self
+  };
+  let transition = propsForCurrentState.transition || {
+    delay: 0.1,
+    default: { duration: 0.5 }
+  };
+
+  if (1) {
+    // Allowed animatable props
+    let base = { background: "rgba(0,0,0,0)", color: "#FFF" };
+    let __default = Object.keys(base).reduce((curProps, k) => {
+      let copy = { ...curProps };
+      copy[k] = props.hasOwnProperty(k) ? props[k] : base[k];
+      return copy;
+    }, {});
+
+    let variants = { ...props.variants };
+    if (!variants.hasOwnProperty("initial")) variants["initial"] = __default;
+    let animateStates = mergedProps.activeStates.length
+      ? mergedProps.activeStates
+      : ["initial"];
+    let transitionProps = {
+      ...props,
+      variants: {
+        ...variants,
+        __default: { ...__default }
+      },
+      animate: animateStates,
+      transition: transition
+    };
+
+    return transitionProps;
+  }
   // Return the expanded object, overwriting in order of global > other > self
   // Element level states should override inherited states
   return {
@@ -154,7 +191,12 @@ function Element(properties) {
   let output = null;
   let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
 
-  let renderProps = { ...effects };
+  // Copy all props & effects
+  let renderProps = { ...effects, ...props };
+
+  // Delete props that might cause problems with void tags
+  delete renderProps["children"];
+  delete renderProps["style"];
 
   renderProps["data-layout"] = props.layout;
 
