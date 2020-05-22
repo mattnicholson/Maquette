@@ -60,7 +60,7 @@ const maquette = {
             opacity: 0,
             variants: {
               // Global states prefixed with global.
-              "global.active": { color: "#000" },
+              "global.active": { color: "#555" },
               // Element states prefixed with {id}.{state}
               "default_button.active": { color: "#0000FF" },
               // Element states without any prefixing
@@ -102,7 +102,15 @@ const maquette = {
                     y: 0,
                     w: 1,
                     h: 1,
-                    background: `rgba(0,0,0,0.3)`
+                    background: `rgba(0,0,0,0.3)`,
+                    variants: {
+                      "global.active": {
+                        background: `rgba(0,0,0,0.8)`
+                      }
+                    },
+                    transition: {
+                      duration: 1
+                    }
                   }
                 ]
               ]
@@ -208,10 +216,7 @@ const maquette = {
                     variants: {
                       active: { background: "#FF0000" }
                     },
-                    effects: [["scaleHover", {}], ["toggle", { id: "global" }]],
-                    transition: {
-                      delay: 0
-                    }
+                    effects: [["scaleHover", {}], ["toggle", { id: "global" }]]
                   }
                 ]
               ]
@@ -275,10 +280,16 @@ const maquette = {
                     alias: "default_button",
                     id: "clicker",
                     default_button: {
-                      content: "Click Here",
+                      content: "Go Dark",
                       component: "a",
                       background: "#4b42f5",
-                      color: "#FFFFFF"
+                      color: "#FFFFFF",
+                      variants: {
+                        "global.active": {
+                          background: "#222",
+                          content: "Go Light"
+                        }
+                      }
                     }
                   }
                 ]

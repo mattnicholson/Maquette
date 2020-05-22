@@ -165,12 +165,19 @@ function mergeStateProps(props, stateMap) {
     ...mergedProps.self
   };
   let transition = propsForCurrentState.transition || {
-    delay: 0.1,
+    delay: 0,
     default: { duration: 0.5 }
   };
 
   if (1) {
     // Allowed animatable props
+
+    let deleteKeys = ["background", "color"];
+    let keepProps = deleteKeys.reduce((props, k) => {
+      //let copy = {...props};
+      delete props[k];
+      return props;
+    }, propsForCurrentState);
     let base = { background: "rgba(0,0,0,0)", color: "#FFF" };
     let __default = Object.keys(base).reduce((curProps, k) => {
       let copy = { ...curProps };
@@ -184,7 +191,7 @@ function mergeStateProps(props, stateMap) {
       ? mergedProps.activeStates
       : ["initial"];
     let transitionProps = {
-      ...props,
+      ...keepProps,
       variants: {
         ...variants,
         __default: { ...__default }
