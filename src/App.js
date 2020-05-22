@@ -281,7 +281,7 @@ const maquette = {
                     id: "clicker",
                     default_button: {
                       content: "Go Dark",
-                      component: "a",
+                      //component: "a",
                       background: "#4b42f5",
                       color: "#FFFFFF",
                       variants: {
