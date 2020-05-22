@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Maquette from "./components/Maquette/Maquette";
 import MaquetteTheme from "./components/Maquette/Theme";
+import useMaquetteStore, { maquetteApi } from "./components/Maquette/store";
+
 import "./normalize.css";
 import "./styles.css";
 
@@ -206,10 +208,9 @@ const maquette = {
                     variants: {
                       active: { background: "#FF0000" }
                     },
-                    effects: [["scaleHover", {}], ["toggle"]],
+                    effects: [["scaleHover", {}], ["toggle", { id: "global" }]],
                     transition: {
-                      delay: 1,
-                      default: { duration: 2 }
+                      delay: 0
                     }
                   }
                 ]
@@ -289,6 +290,8 @@ const maquette = {
     ]
   ]
 };
+
+maquetteApi.setState(maquette);
 
 export default function App() {
   const [ready, setReady] = useState("loading");

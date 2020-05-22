@@ -1,5 +1,7 @@
 import React from "react";
 import MaquetteElement from "./Element";
+import useMaquetteStore, { maquetteApi } from "./store";
+
 import { motion } from "framer-motion";
 
 function effectToProps(effect) {
@@ -24,6 +26,30 @@ function effectToProps(effect) {
     case "scaleHover":
       return {
         whileHover: { scale: 1.1 }
+      };
+    case "toggle":
+      return {
+        onClick: () => {
+          let stateMap = maquetteApi.getState().stateMap;
+          let id = effectSettings.id;
+          let target = Object.keys(stateMap).find(k => k === id);
+
+          let states = target ? [...stateMap[target]] : [];
+          if (target) target = id;
+
+          console.log("states", target, states, states.indexOf("active"));
+          let ix = states.indexOf("active");
+          if (ix == -1) {
+            states.push("active");
+          } else {
+            states.splice(ix, 1);
+          }
+
+          let newStateMap = { ...stateMap };
+          newStateMap[id] = states;
+          maquetteApi.setState({ stateMap: newStateMap });
+          console.log(newStateMap);
+        }
       };
     default:
       return {};
@@ -266,6 +292,9 @@ function Element(properties) {
 }
 
 export default function Maquette({ settings, root }) {
+  const stateMap = useMaquetteStore(state => state.stateMap);
+  // Use stateMap from store
+  settings.stateMap = stateMap;
   // ["type",{props:value},[child,child]]
 
   let rootType = root[0];
