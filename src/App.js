@@ -58,9 +58,11 @@ const maquette = {
             background: "#000",
             color: "#FFF",
             opacity: 0,
+
             variants: {
               // Global states prefixed with global.
-              "global.active": { color: "#555" },
+              // "global.initial": { color: "#fff" },
+              "global.active": { color: "#555", x: `-50%` },
               // Element states prefixed with {id}.{state}
               "default_button.active": { color: "#0000FF" },
               // Element states without any prefixing
