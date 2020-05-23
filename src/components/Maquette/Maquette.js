@@ -172,7 +172,7 @@ function mergeStateProps(props, stateMap) {
   if (1) {
     // Allowed animatable props
 
-    let deleteKeys = ["background", "color"];
+    let deleteKeys = ["background", "color", "hidden"];
     let keepProps = deleteKeys.reduce((props, k) => {
       //let copy = {...props};
       delete props[k];
@@ -303,7 +303,7 @@ export default function Maquette({ settings, root }) {
   // Use stateMap from store
   settings.stateMap = stateMap;
   // ["type",{props:value},[child,child]]
-
+  console.log(root);
   let rootType = root[0];
   let rootProps = root[1];
   let children = root[2] || [];
