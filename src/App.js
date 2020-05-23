@@ -62,9 +62,15 @@ const maquette = {
             y: 0,
             w: 1,
             h: 3,
-            exit: {
+            opacity: 1,
+            /*exit: {
               opacity: 0
+            },*/
+            initial: {
+              opacity: 1
             },
+
+            hidden: false,
             variants: {
               "global.active": { hidden: true }
             }
@@ -80,9 +86,13 @@ const maquette = {
             y: 0,
             w: 1,
             h: 3,
-            exit: {
-              opacity: 0
+            opacity: 1,
+            initial: {
+              opacity: 1
             },
+            /*exit: {
+              opacity: 0
+            },*/
             variants: {
               "global.active": { hidden: false }
             }

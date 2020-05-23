@@ -1,26 +1,11 @@
-export default (about = [
+export default [
   [
     // Section 1
     "viewport",
     {
       id: "about_head",
       background: "#000",
-      color: "#FFF",
-      opacity: 0,
-      initial: { scale: 0.95 },
-      variants: {
-        enter: { scale: 1 },
-        // Global states prefixed with global.
-        // "global.initial": { color: "#fff" },
-        "global.active": { color: "#555", hidden: true },
-        // Element states prefixed with {id}.{state}
-        "default_button.active": { color: "#0000FF" },
-        // Element states without any prefixing
-        active: { color: "#333", borderRadius: `10px` }
-      },
-      breakpoints: {
-        mobile: { border: "10px solid white" }
-      }
+      color: "#FFF"
     },
     [
       [
@@ -43,7 +28,7 @@ export default (about = [
               h: 1,
               layout: "cover",
               effects: [["fadeIn"]],
-              src: "https://picsum.photos/1920/1080"
+              src: "https://picsum.photos/1920/1080?random=3"
             }
           ],
           [
@@ -95,4 +80,4 @@ export default (about = [
       ]
     ]
   ]
-]);
+];

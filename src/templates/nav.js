@@ -1,4 +1,4 @@
-export default (nav = [
+export default [
   "box",
   { id: "header", fixed: true, x: 0, y: 0, w: 1, h: 0.2 },
   [
@@ -42,14 +42,14 @@ export default (nav = [
             alias: "default_button",
             id: "clicker",
             default_button: {
-              content: "Go Dark",
+              content: "About",
               //component: "a",
               background: "#4b42f5",
               color: "#FFFFFF",
               variants: {
                 "global.active": {
                   background: "#222",
-                  content: "Go Light"
+                  content: "Home"
                 }
               }
             }
@@ -58,4 +58,4 @@ export default (nav = [
       ]
     ]
   ]
-]);
+];

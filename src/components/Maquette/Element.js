@@ -7,13 +7,15 @@ export default function Element(props) {
   let Out = motion[tag];
 
   let isHidden = props.hidden;
-  console.log("element", props.id, isHidden);
+  /*if (["homepage", "aboutpage"].indexOf(props.id) != -1)
+    console.log("element", props.id, isHidden, props);*/
 
   return (
     <AnimatePresence>
       {!isHidden && (
         <Out
           {...props}
+          exit={{ opacity: 0 }}
           /*
           exit={{
             opacity: 0,

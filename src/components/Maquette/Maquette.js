@@ -172,7 +172,7 @@ function mergeStateProps(props, stateMap) {
   if (1) {
     // Allowed animatable props
 
-    let deleteKeys = ["background", "color", "hidden"];
+    let deleteKeys = ["background", "color"];
     let keepProps = deleteKeys.reduce((props, k) => {
       //let copy = {...props};
       delete props[k];
@@ -185,7 +185,28 @@ function mergeStateProps(props, stateMap) {
       return copy;
     }, {});
 
-    let variants = { ...props.variants };
+    let animatableProps = [
+      "background",
+      "backgroundColor",
+      "color",
+      "size",
+      "x",
+      "y",
+      "scale",
+      "rotate",
+      "opacity",
+      "height",
+      "width"
+    ];
+
+    let variants = Object.keys(props.variants).reduce((cleanVariants, key) => {
+      cleanVariants[key] = {};
+      animatableProps.forEach(prop => {
+        if (props.variants[key].hasOwnProperty(prop))
+          cleanVariants[key] = props.variants[prop];
+      });
+      return cleanVariants;
+    }, {});
     if (!variants.hasOwnProperty("initial")) variants["initial"] = __default;
     let animateStates = mergedProps.activeStates.length
       ? mergedProps.activeStates
@@ -303,7 +324,7 @@ export default function Maquette({ settings, root }) {
   // Use stateMap from store
   settings.stateMap = stateMap;
   // ["type",{props:value},[child,child]]
-  console.log(root);
+
   let rootType = root[0];
   let rootProps = root[1];
   let children = root[2] || [];
