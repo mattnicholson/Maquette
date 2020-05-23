@@ -60,7 +60,7 @@ const maquette = {
             id: "homepage",
             x: 0,
             y: 0,
-            w: 1,
+            w: 0.5,
             h: 3,
             opacity: 1,
             /*exit: {
@@ -82,9 +82,9 @@ const maquette = {
           {
             id: "aboutpage",
             hidden: true,
-            x: 0,
+            x: 0.5,
             y: 0,
-            w: 1,
+            w: 0.5,
             h: 3,
             opacity: 1,
             initial: {
