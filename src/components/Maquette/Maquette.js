@@ -1,6 +1,6 @@
 import React from "react";
 import MaquetteElement from "./Element";
-import useMaquetteStore, { maquetteApi } from "./store";
+import useMaquetteStore, { maquetteApi, maquetteUtils } from "./store";
 
 import { motion } from "framer-motion";
 
@@ -30,25 +30,10 @@ function effectToProps(effect) {
     case "toggle":
       return {
         onClick: () => {
-          let stateMap = maquetteApi.getState().stateMap;
           let id = effectSettings.id;
-          let target = Object.keys(stateMap).find(k => k === id);
+          let label = effectSettings.label || "active";
 
-          let states = target ? [...stateMap[target]] : [];
-          if (target) target = id;
-
-          console.log("states", target, states, states.indexOf("active"));
-          let ix = states.indexOf("active");
-          if (ix == -1) {
-            states.push("active");
-          } else {
-            states.splice(ix, 1);
-          }
-
-          let newStateMap = { ...stateMap };
-          newStateMap[id] = states;
-          maquetteApi.setState({ stateMap: newStateMap });
-          console.log(newStateMap);
+          maquetteUtils.toggleState(label, id);
         }
       };
     default:
@@ -72,7 +57,7 @@ function findElement(id, array) {
   let found = 0;
 
   for (let i = 0; i < array.length; i++) {
-    let el = array[i];
+    let el = [...array[i]];
     if (el[1].id === id) {
       found = el;
       break;
@@ -111,7 +96,9 @@ function overwriteProperties(el, changes) {
   let overwrote = [el[0], overwroteProps];
   if (children.length) overwrote.push(overwriteChildren);
 
-  if (changes.id) overwrote[1].id = changes.id;
+  if (changes.id && overwrote[1].id == changes.alias)
+    overwrote[1].id = changes.id;
+  else if (changes.id) overwrote[1].id = changes.id + ":" + overwrote[1].id;
 
   return overwrote;
 }
@@ -123,9 +110,9 @@ function cloneAlias(props) {
   let element = findElement(find, elements);
 
   if (!element) return null;
-  let clone = [...element];
+  let clone = JSON.parse(JSON.stringify(element));
 
-  return overwriteProperties(element, props);
+  return overwriteProperties(clone, props);
 }
 function mergeStateProps(props, stateMap) {
   if (!props.hasOwnProperty("variants")) return props;
