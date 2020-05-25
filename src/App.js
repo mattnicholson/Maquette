@@ -60,18 +60,20 @@ const maquette = {
             id: "homepage",
             x: 0,
             y: 0,
-            w: 0.5,
+            w: 1,
             h: 3,
+            useMotion: true,
+            useVisibility: true,
             opacity: 1,
             /*exit: {
               opacity: 0
             },*/
-            initial: {
-              opacity: 1
-            },
+            initial: "hidden",
 
             hidden: false,
             variants: {
+              hidden: { opacity: 0, y: `10px` },
+              visible: { opacity: 1, y: 0 },
               "global.active": { hidden: true }
             }
           },
@@ -82,18 +84,20 @@ const maquette = {
           {
             id: "aboutpage",
             hidden: true,
-            x: 0.5,
+            x: 0,
             y: 0,
-            w: 0.5,
+            w: 1,
             h: 3,
-            opacity: 1,
-            initial: {
-              opacity: 1
-            },
+            useMotion: true,
+            useVisibility: true,
+            hidden: true,
+            initial: "hidden",
             /*exit: {
               opacity: 0
             },*/
             variants: {
+              hidden: { opacity: 0, y: `10px` },
+              visible: { opacity: 1, y: 0 },
               "global.active": { hidden: false }
             }
           },

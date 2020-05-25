@@ -4,6 +4,7 @@ export default [
     "viewport",
     {
       id: "about_head",
+
       background: "#000",
       color: "#FFF"
     },

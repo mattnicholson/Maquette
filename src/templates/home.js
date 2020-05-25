@@ -7,6 +7,7 @@ export default [
       background: "#000",
       color: "#FFF",
       useVisibility: true,
+
       breakpoints: {
         mobile: { border: "10px solid white" }
       }
@@ -170,7 +171,7 @@ export default [
               useMotion: true,
               variants: {
                 active: { background: "#FF0000" },
-                "masthead.visible": { background: "#00FF00", color: "#000000" }
+                "masthead.visible": { hidden: true }
               },
               effects: [["scaleHover", {}], ["toggle", { id: "global" }]]
             }
