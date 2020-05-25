@@ -16,15 +16,17 @@ function effectToProps(effect) {
           hidden: { opacity: 0 }
         },
         transition: {
-          delay: 1,
+          delay: 0.5,
           default: { duration: 2 }
         },
-        initial: "hidden",
-        animate: "visible"
+        useMotion: true,
+        useVisibility: true,
+        initial: "hidden"
       };
       return { initial: { opacity: 0 }, animate: { opacity: 1 } };
     case "scaleHover":
       return {
+        useMotion: true,
         whileHover: { scale: 1.1 }
       };
     case "toggle":
@@ -114,6 +116,57 @@ function cloneAlias(props) {
 
   return overwriteProperties(clone, props);
 }
+
+function getStateProps(props, stateMap) {
+  // No variants, dont respond to any states
+  if (!props.variants)
+    return {
+      ...props,
+      activeStates: ["__default"]
+    };
+
+  let mergedProps = Object.keys(stateMap).reduce(
+    (curProps, k) => {
+      let merge = Object.keys(props.variants).find(pk => {
+        let splitKey = pk.split(".");
+        let search = splitKey.length > 1 ? splitKey[1] : splitKey[0];
+
+        let matchId = k == props.id || splitKey[0] == k;
+        let matchState = stateMap[k].indexOf(search) != -1;
+        return matchId && matchState;
+      });
+      if (merge) {
+        let copy = { ...curProps };
+        let key;
+
+        // Work out which type of state listener we matched
+        if (k == props.id) key = "self";
+        else if (k.match("global.")) key = "global";
+        else key = "other";
+        copy[key] = { ...curProps[key], ...props.variants[merge] };
+        copy["activeStates"] = [...curProps.activeStates, merge];
+        return { ...copy };
+      }
+
+      // Key matches
+      return { ...curProps };
+    },
+    { global: {}, self: {}, other: {}, activeStates: [] }
+  );
+
+  let activeStates = mergedProps.activeStates.length
+    ? mergedProps.activeStates
+    : ["__default"];
+
+  return {
+    ...props,
+    ...mergedProps.global,
+    ...mergedProps.other,
+    ...mergedProps.self,
+    activeStates: [...activeStates]
+  };
+}
+
 function mergeStateProps(props, stateMap) {
   if (!props.hasOwnProperty("variants")) return props;
   let mergedProps = Object.keys(stateMap).reduce(
@@ -190,7 +243,7 @@ function mergeStateProps(props, stateMap) {
       cleanVariants[key] = {};
       animatableProps.forEach(prop => {
         if (props.variants[key].hasOwnProperty(prop))
-          cleanVariants[key] = props.variants[prop];
+          cleanVariants[key][prop] = props.variants[key][prop];
       });
       return cleanVariants;
     }, {});
@@ -228,12 +281,16 @@ function Element(properties) {
     return <Maquette settings={properties.settings} root={alias} />;
   }
 
+  let stateProps = getStateProps(properties, properties.settings.stateMap);
+  /*if (properties.id && properties.type == "image")
+    console.log(properties.id, stateProps);*/
+
   let props = mergeStateProps(properties, properties.settings.stateMap);
   let output = null;
   let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
 
   // Copy all props & effects
-  let renderProps = { ...effects, ...props };
+  let renderProps = { ...props, ...effects };
 
   // Delete props that might cause problems with void tags
   delete renderProps["children"];

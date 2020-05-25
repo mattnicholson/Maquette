@@ -102,12 +102,14 @@ function VisibilityElement(props) {
     visibility.current = true;
     // Run callback
     maquetteUtils.addState("visible", props.id);
+    maquetteUtils.removeState("hidden", props.id);
   }
 
   function onInvisible() {
     visibility.current = false;
     // Run callback
     maquetteUtils.removeState("visible", props.id);
+    maquetteUtils.addState("hidden", props.id);
   }
 
   // Effect that runs when props change

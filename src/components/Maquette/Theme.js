@@ -35,6 +35,8 @@ export default function Theme({ settings, children, loaded }) {
           font-family:'DM Sans', sans-serif;
           font-weight:400;
         }
+
+        
       .hero{
         /*font-family:'DM Mono', monospace;*/
         font-weight:700;

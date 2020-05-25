@@ -31,7 +31,18 @@ export default [
               w: 1,
               h: 1,
               layout: "cover",
-              effects: [["fadeIn"]],
+              useMotion: true,
+              useVisibility: true,
+              //effects: [["fadeIn"]],
+              variants: {
+                hidden: { scale: 0.9, opacity: 0, transition: { delay: 0 } },
+                visible: { scale: 1, opacity: 1 }
+              },
+              transition: {
+                delay: 0,
+                default: { duration: 1 }
+              },
+              initial: "hidden",
               src: "https://picsum.photos/1920/1080"
             }
           ],
@@ -156,6 +167,7 @@ export default [
               content: "Button",
               color: "#FFFFFF",
               background: "#0000FF",
+              useMotion: true,
               variants: {
                 active: { background: "#FF0000" },
                 "masthead.visible": { background: "#00FF00", color: "#000000" }
