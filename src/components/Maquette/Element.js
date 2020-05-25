@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useViewportScroll,
-  useTransform
-} from "framer-motion";
-import TrackVisibility from "react-on-screen";
+import { AnimatePresence, motion } from "framer-motion";
 import { maquetteUtils } from "./store";
-import useIntersect from "./useIntersect";
 
 const DEBUG = false;
 
@@ -127,40 +120,6 @@ function VisibilityElement(props) {
       onUnmount();
     };
   }, []);
-
-  function unused() {
-    const [ref, entry] = useIntersect({
-      threshold: buildThresholdArray(),
-      //threshold: 0
-      onDisconnect: () => {
-        console.log("disconnected for " + props.id);
-      }
-    });
-
-    /*const ref = () => {};
-      const entry = {};*/
-
-    useEffect(() => {
-      //alert(`${props.id} is ${props.hidden}`);
-      // Cleanup
-      return () => {
-        //alert(`cleanup ${props.id}`)
-      };
-    }, [props.hidden]); // Only re-subscribe if hidden changes
-
-    //console.log(props.id, VISIBLE);
-
-    if (!VISIBLE && entry.intersectionRatio > 0) {
-      //console.log(props.id, "visible", entry.intersectionRatio);
-      VISIBLE = true;
-    }
-
-    if (VISIBLE && !entry.intersectionRatio) {
-      //console.log(props.id, "invisible", entry.intersectionRatio);
-      VISIBLE = false;
-    }
-  }
-  // End unsused
 
   // Animate setting
   if (props.useMotion) {
