@@ -51,7 +51,7 @@ function VisibilityElement(props) {
   // Mutable object to access between renders
   const visibility = React.useRef();
   const observer = React.useRef(
-    new window.IntersectionObserver(([entry]) => updateIntersection(entry), {
+    new global.IntersectionObserver(([entry]) => updateIntersection(entry), {
       root: null,
       threshold: [0, 0.5, 1]
     })

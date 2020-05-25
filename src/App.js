@@ -87,17 +87,13 @@ const maquette = {
             x: 0,
             y: 0,
             w: 1,
-            h: 3,
-            useMotion: true,
-            useVisibility: true,
+            h: 1,
+            effects: [["slideUp"]],
             hidden: true,
-            initial: "hidden",
             /*exit: {
               opacity: 0
             },*/
             variants: {
-              hidden: { opacity: 0, y: `10px` },
-              visible: { opacity: 1, y: 0 },
               "global.active": { hidden: false }
             }
           },

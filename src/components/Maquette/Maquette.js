@@ -4,6 +4,9 @@ import useMaquetteStore, { maquetteApi, maquetteUtils } from "./store";
 
 import { motion } from "framer-motion";
 
+//var _merge = require("lodash/merge");
+const merge = require("deepmerge");
+
 function effectToProps(effect) {
   let effectType = effect[0];
   let effectSettings = effect[1];
@@ -11,19 +14,66 @@ function effectToProps(effect) {
   switch (effectType) {
     case "fadeIn":
       return {
+        opacity: 1,
         variants: {
           visible: { opacity: 1 },
           hidden: { opacity: 0 }
         },
         transition: {
-          delay: 0.5,
-          default: { duration: 2 }
+          delay: 0.1,
+          default: { duration: 1.8 }
         },
         useMotion: true,
         useVisibility: true,
         initial: "hidden"
       };
-      return { initial: { opacity: 0 }, animate: { opacity: 1 } };
+    case "scaleUp":
+      return {
+        scale: 1,
+        opacity: 1,
+        variants: {
+          visible: { scale: 1, opacity: 1 },
+          hidden: { scale: 0.95, opacity: 0 }
+        },
+        transition: {
+          delay: 0.1,
+          default: { duration: 1.2 }
+        },
+        useMotion: true,
+        useVisibility: true,
+        initial: "hidden"
+      };
+    case "scaleDown":
+      return {
+        scale: 1,
+        opacity: 1,
+        variants: {
+          visible: { scale: 1, opacity: 1 },
+          hidden: { scale: 1.05, opacity: 0 }
+        },
+        transition: {
+          delay: 0.1,
+          default: { duration: 1.2 }
+        },
+        useMotion: true,
+        useVisibility: true,
+        initial: "hidden"
+      };
+    case "slideUp":
+      return {
+        opacity: 1,
+        variants: {
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: `20px`, opacity: 0 }
+        },
+        transition: {
+          delay: 0.1,
+          default: { duration: 1.2 }
+        },
+        useMotion: true,
+        useVisibility: true,
+        initial: "hidden"
+      };
     case "scaleHover":
       return {
         useMotion: true,
@@ -281,16 +331,25 @@ function Element(properties) {
     return <Maquette settings={properties.settings} root={alias} />;
   }
 
-  let stateProps = getStateProps(properties, properties.settings.stateMap);
+  //let stateProps = getStateProps(properties, properties.settings.stateMap);
   /*if (properties.id && properties.type == "image")
     console.log(properties.id, stateProps);*/
 
-  let props = mergeStateProps(properties, properties.settings.stateMap);
+  let effects = properties.effects
+    ? loadEffects({ effects: properties.effects })
+    : {};
+
+  let propKeys = Object.keys(properties);
+  let effectKeys = Object.keys(effects);
+
+  let effectedProps = merge(effects, properties);
+  /*if (properties.id && properties.id.match("masthead"))
+    console.log(properties.id, properties, effects, effectedProps);*/
+  let props = mergeStateProps(effectedProps, properties.settings.stateMap);
   let output = null;
-  let effects = props.effects ? loadEffects({ effects: props.effects }) : {};
 
   // Copy all props & effects
-  let renderProps = { ...props, ...effects };
+  let renderProps = { ...props };
 
   // Delete props that might cause problems with void tags
   delete renderProps["children"];

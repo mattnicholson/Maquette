@@ -41,11 +41,7 @@ export default [
               w: 1,
               h: 1,
               background: `rgba(0,0,0,0.3)`,
-              variants: {
-                "global.active": {
-                  background: `rgba(0,0,0,0.8)`
-                }
-              },
+
               transition: {
                 duration: 1
               }

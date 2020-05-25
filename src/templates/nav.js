@@ -48,7 +48,8 @@ export default [
               color: "#FFFFFF",
               variants: {
                 "global.active": {
-                  background: "#222",
+                  background: "#00FF00",
+                  color: "#222",
                   content: "Home"
                 }
               }

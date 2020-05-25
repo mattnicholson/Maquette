@@ -83,6 +83,7 @@ export default function Theme({ settings, children, loaded }) {
       .Button{
         font-family:'DM Mono', monospace;
         font-size:14px;
+        border:none;
         line-height:250%;
         display:inline-block;
         background:#CCC;

@@ -7,7 +7,6 @@ export default [
       background: "#000",
       color: "#FFF",
       useVisibility: true,
-
       breakpoints: {
         mobile: { border: "10px solid white" }
       }
@@ -32,18 +31,7 @@ export default [
               w: 1,
               h: 1,
               layout: "cover",
-              useMotion: true,
-              useVisibility: true,
-              //effects: [["fadeIn"]],
-              variants: {
-                hidden: { scale: 0.9, opacity: 0, transition: { delay: 0 } },
-                visible: { scale: 1, opacity: 1 }
-              },
-              transition: {
-                delay: 0,
-                default: { duration: 1 }
-              },
-              initial: "hidden",
+              effects: [["scaleUp"]],
               src: "https://picsum.photos/1920/1080"
             }
           ],
