@@ -109,12 +109,16 @@ maquetteApi.setState(maquette);
 
 export default function App() {
   const [ready, setReady] = useState("loading");
+  const stateMap = useMaquetteStore(state => state.stateMap);
 
+  const settings = { ...maquette, stateMap: stateMap };
+
+  //console.log("stateMap", stateMap);
   return (
     <div className={`App App--${ready}`}>
-      <MaquetteTheme settings={maquette} loaded={() => setReady("ready")}>
+      <MaquetteTheme settings={settings} loaded={() => setReady("ready")}>
         <Maquette
-          settings={maquette}
+          settings={settings}
           root={maquette.elements.find(e => e[0] === "root")}
         />
       </MaquetteTheme>

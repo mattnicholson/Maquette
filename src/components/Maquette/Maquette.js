@@ -156,7 +156,7 @@ function mergeStateProps(props, stateMap) {
     default: { duration: 0.5 }
   };
 
-  if (1) {
+  if (props.useMotion) {
     // Allowed animatable props
 
     let deleteKeys = ["background", "color"];
@@ -307,9 +307,6 @@ function Element(properties) {
 }
 
 export default function Maquette({ settings, root }) {
-  const stateMap = useMaquetteStore(state => state.stateMap);
-  // Use stateMap from store
-  settings.stateMap = stateMap;
   // ["type",{props:value},[child,child]]
 
   let rootType = root[0];

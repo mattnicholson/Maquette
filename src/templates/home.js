@@ -6,6 +6,7 @@ export default [
       id: "masthead",
       background: "#000",
       color: "#FFF",
+      useVisibility: true,
       breakpoints: {
         mobile: { border: "10px solid white" }
       }
@@ -63,7 +64,8 @@ export default [
           y: 0.5,
           w: 1,
           h: 0,
-          fixed: false
+          fixed: false,
+          color: "#FFFFFF"
         },
         [
           [
@@ -152,8 +154,11 @@ export default [
             {
               id: "default_button",
               content: "Button",
+              color: "#FFFFFF",
+              background: "#0000FF",
               variants: {
-                active: { background: "#FF0000" }
+                active: { background: "#FF0000" },
+                "masthead.visible": { background: "#00FF00", color: "#000000" }
               },
               effects: [["scaleHover", {}], ["toggle", { id: "global" }]]
             }
